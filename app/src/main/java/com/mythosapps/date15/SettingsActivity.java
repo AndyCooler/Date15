@@ -2,6 +2,7 @@ package com.mythosapps.date15;
 
 import android.annotation.TargetApi;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
@@ -116,14 +117,14 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      */
     private static void bindPreferenceSummaryToValue(Preference preference) {
         // Set the listener to watch for value changes.
-        preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
+//        preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
 
         // Trigger the listener immediately with the preference's
         // current value.
-        sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
-                PreferenceManager
-                        .getDefaultSharedPreferences(preference.getContext())
-                        .getString(preference.getKey(), ""));
+//        sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
+ //               PreferenceManager
+  //                      .getDefaultSharedPreferences(preference.getContext())
+    //                    .getString(preference.getKey(), ""));
     }
 
     @Override
@@ -279,15 +280,25 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                         int todaysDateIcon = dateIcons.get(index);
                         Toast.makeText(getContext(),"On: " + index,Toast.LENGTH_SHORT).show();
 
-                        // Unchecked the switch programmatically
-                        onOffDateNotification.setChecked(true);
-                        NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(), CONNECTIVITY_SERVICE)
+                        NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(), NOTIFICATION_SERVICE)
                                 .setSmallIcon(todaysDateIcon)
                                 .setContentTitle("")
                                 .setContentText("")
                                 .setOngoing(true)
                                 .setVisibility(NotificationCompat.VISIBILITY_SECRET)
                                 .setPriority(NotificationCompat.PRIORITY_HIGH);
+
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            // ab Android Oreo mit Channel:
+                            NotificationChannel channel = new NotificationChannel("date15_channel", "date15_channel", NotificationManager.IMPORTANCE_HIGH);
+                            NotificationManager nMgr = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                            nMgr.createNotificationChannel(channel);
+                            builder.setChannelId("date15_channel");
+                        }
+
+                        // Unchecked the switch programmatically
+                        onOffDateNotification.setChecked(true);
                         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getContext());
 
                         notification = builder.build();
