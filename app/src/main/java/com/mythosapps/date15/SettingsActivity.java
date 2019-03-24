@@ -280,14 +280,14 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                         onOffDateNotification.setChecked(true);
 
                         Calendar cal = GregorianCalendar.getInstance();
-                        int index = cal.get(Calendar.DAY_OF_MONTH)-1;
-                        int todaysDateIcon = dateIcons.get(index);
-                        Toast.makeText(getContext(),"On: " + index,Toast.LENGTH_SHORT).show();
+                        int day = cal.get(Calendar.DAY_OF_MONTH);
+                        int todaysDateIcon = dateIcons.get(day-1); // index zero-based
+                        Toast.makeText(getContext(),"On: " + day,Toast.LENGTH_SHORT).show();
 
                         NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(), NOTIFICATION_SERVICE)
                                 .setSmallIcon(todaysDateIcon)
-                                .setContentTitle("")
-                                .setContentText("")
+                                .setContentTitle("Date in Status Bar")
+                                .setContentText(""+day)
                                 .setOnlyAlertOnce(true)
                                 //.setShowWhen(false)
                                 //.setExtras()
