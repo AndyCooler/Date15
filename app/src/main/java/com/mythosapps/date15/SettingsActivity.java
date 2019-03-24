@@ -265,16 +265,20 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     if(onOffDateNotification.isChecked()){
-                        Toast.makeText(getContext(),"Off",Toast.LENGTH_SHORT).show();
-
                         // Checked the switch programmatically
                         onOffDateNotification.setChecked(false);
+
+                        Toast.makeText(getContext(),"Off",Toast.LENGTH_SHORT).show();
+
                         if (notification != null) {
                             NotificationManager nMgr = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
                             nMgr.cancel(4711);
                             notification = null;
                         }
                     }else {
+                        // Unchecked the switch programmatically
+                        onOffDateNotification.setChecked(true);
+
                         Calendar cal = GregorianCalendar.getInstance();
                         int index = cal.get(Calendar.DAY_OF_MONTH)-1;
                         int todaysDateIcon = dateIcons.get(index);
@@ -284,6 +288,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                                 .setSmallIcon(todaysDateIcon)
                                 .setContentTitle("")
                                 .setContentText("")
+                                .setOnlyAlertOnce(true)
+                                //.setShowWhen(false)
+                                //.setExtras()
                                 .setOngoing(true)
                                 .setVisibility(NotificationCompat.VISIBILITY_SECRET)
                                 .setPriority(NotificationCompat.PRIORITY_HIGH);
@@ -297,8 +304,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                             builder.setChannelId("date15_channel");
                         }
 
-                        // Unchecked the switch programmatically
-                        onOffDateNotification.setChecked(true);
                         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getContext());
 
                         notification = builder.build();
