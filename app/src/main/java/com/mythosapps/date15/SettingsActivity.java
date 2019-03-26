@@ -16,6 +16,7 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.SwitchPreference;
+import android.service.notification.StatusBarNotification;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.ActionBar;
@@ -65,28 +66,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                         index >= 0
                                 ? listPreference.getEntries()[index]
                                 : null);
-
-            } else if (preference instanceof RingtonePreference) {
-                // For ringtone preferences, look up the correct display value
-                // using RingtoneManager.
-                if (TextUtils.isEmpty(stringValue)) {
-                    // Empty values correspond to 'silent' (no ringtone).
-                    preference.setSummary(R.string.pref_ringtone_silent);
-
-                } else {
-                    Ringtone ringtone = RingtoneManager.getRingtone(
-                            preference.getContext(), Uri.parse(stringValue));
-
-                    if (ringtone == null) {
-                        // Clear the summary if there was a lookup error.
-                        preference.setSummary(null);
-                    } else {
-                        // Set the summary to reflect the new ringtone display
-                        // name.
-                        String name = ringtone.getTitle(preference.getContext());
-                        preference.setSummary(name);
-                    }
-                }
 
             } else {
                 // For all other preferences, set the summary to the value's
@@ -210,6 +189,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class NotificationPreferenceFragment extends PreferenceFragment {
 
+        private static final int DATE15_NOTIFICATION_ID = 4711;
+        private static final String DATE15_PACKAGE = "com.mythosapps.date15";
+
         Notification notification;
 
         @Override
@@ -226,7 +208,23 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
             final SwitchPreference onOffDateNotification = (SwitchPreference) findPreference("notifications_new_message");
 
+            NotificationManager nMgr = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+            StatusBarNotification[] activeNotifications = nMgr.getActiveNotifications();
+            boolean isNotificationActive = false;
+            if (activeNotifications != null && activeNotifications.length > 0) {
+                for (StatusBarNotification activeNotification : activeNotifications) {
+                    //String msg = "" + notification.getPackageName() + "#" + notification.getId();
+                    //Toast.makeText(getContext(),"Found: " + msg,Toast.LENGTH_SHORT).show();
+                    if (DATE15_PACKAGE.equals(activeNotification.getPackageName()) && DATE15_NOTIFICATION_ID == activeNotification.getId()) {
+                        isNotificationActive = true;
+                        notification = activeNotification.getNotification();
+                        break;
+                    }
+                }
+            }
+
             // SwitchPreference preference change listener
+            onOffDateNotification.setChecked(isNotificationActive);
             onOffDateNotification.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
@@ -238,7 +236,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
                         if (notification != null) {
                             NotificationManager nMgr = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-                            nMgr.cancel(4711);
+                            nMgr.cancel(DATE15_NOTIFICATION_ID);
                             notification = null;
                         }
                     }else {
@@ -248,7 +246,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                         notification = NotificationBuilder.buildForToday(getContext());
 
                         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getContext());
-                        notificationManager.notify(4711, notification);
+                        notificationManager.notify(DATE15_NOTIFICATION_ID, notification);
 
                     }
                     return false;
