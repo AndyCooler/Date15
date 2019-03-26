@@ -1,13 +1,16 @@
 package com.mythosapps.date15;
 
 import android.app.IntentService;
-import android.app.NotificationManager;
-import android.content.Context;
+import android.app.Notification;
 import android.content.Intent;
+import android.support.v4.app.NotificationManagerCompat;
+import android.widget.Toast;
 
 public class DateUpdateService extends IntentService {
 
-    public DateUpdateService(){
+    private static final int DATE15_NOTIFICATION_ID = 4711;
+
+    public DateUpdateService() {
         super("DateUpdateService");
     }
 
@@ -16,19 +19,19 @@ public class DateUpdateService extends IntentService {
     }
 
     @Override
-        protected void onHandleIntent(Intent workIntent) {
-            // Gets data from the incoming Intent
-            String dataString = workIntent.getDataString();
+    protected void onHandleIntent(Intent workIntent) {
+        // Gets data from the incoming Intent
+        //String dataString = workIntent.getDataString();
 
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            // Restore interrupt status.
-            Thread.currentThread().interrupt();
-        }
+        System.out.println("xyz.date15.alarm.rings");
+        //Toast.makeText(this,"HEY !!! Woooooo! ",Toast.LENGTH_SHORT).show();
 
+        //Notification notification = NotificationBuilder.buildForToday(this);
 
-        //NotificationManager nMgr = (NotificationManager) .getSystemService(Context.NOTIFICATION_SERVICE);
-        }
+        //
+        // NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        //notificationManager.notify(DATE15_NOTIFICATION_ID, notification);
+
     }
+}
 

@@ -1,36 +1,27 @@
 package com.mythosapps.date15;
 
 import android.annotation.TargetApi;
+import android.app.AlarmManager;
 import android.app.Notification;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceFragment;
 import android.preference.SwitchPreference;
 import android.service.notification.StatusBarNotification;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.ActionBar;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
-import android.preference.RingtonePreference;
-import android.text.TextUtils;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -110,6 +101,18 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupActionBar();
+        PendingIntent servicePendingIntent = PendingIntent.getService(this, 0, new Intent(this, DateUpdateService.class), PendingIntent.FLAG_CANCEL_CURRENT );
+
+        AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+
+        Calendar calendar = Calendar.getInstance();
+        //calendar.set(Calendar.HOUR_OF_DAY, 15);
+        //calendar.set(Calendar.MINUTE, 20);
+        //calendar.set(Calendar.SECOND, 00);
+
+        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24 * 60 * 60 * 1000, servicePendingIntent);  //set repeating every 24 hours
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 3 * 1000, servicePendingIntent);  //set repeating every 2 mins
+        System.out.println("xyz.date15.alarm.set");
     }
 
     /**
