@@ -50,28 +50,44 @@ public class NotificationBuilder {
         dateIcons.add(R.drawable.ic_date_31);
     }
 
+    static NotificationCompat.Builder builder;
+
+    static NotificationChannel channel;
+
     public static Notification buildForToday(Context context) {
 
         Calendar cal = GregorianCalendar.getInstance();
-        int day = cal.get(Calendar.DAY_OF_MONTH);
+        //int day = cal.get(Calendar.DAY_OF_MONTH);
+        int day = cal.get(Calendar.MINUTE);// TODO !!!!!
+        if (day > 30) {
+            day = day-30;
+        }
         int todaysDateIcon = dateIcons.get(day-1); // index zero-based
-        Toast.makeText(context,"On: " + day,Toast.LENGTH_SHORT).show();
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, Context.NOTIFICATION_SERVICE)
-                .setSmallIcon(todaysDateIcon)
-                .setContentTitle("Date in Status Bar")
-                .setContentText(""+day)
-                .setOnlyAlertOnce(true)
-                //.setShowWhen(false)
-                //.setExtras()
-                .setOngoing(true)
-                .setVisibility(NotificationCompat.VISIBILITY_SECRET)
-                .setPriority(NotificationCompat.PRIORITY_HIGH);
+        System.out.println("xyz.date15.alarm.rings.notification " + day);
 
+        if (builder == null) {
+             builder = new NotificationCompat.Builder(context, Context.NOTIFICATION_SERVICE)
+                    .setSmallIcon(todaysDateIcon)
+                    .setContentTitle("Date in Status Bar")
+                    .setContentText(""+day)
+                    .setOnlyAlertOnce(true)
+                    //.setShowWhen(false)
+                    //.setExtras()
+                    .setOngoing(true)
+                    .setVisibility(NotificationCompat.VISIBILITY_SECRET)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH);
+        } else {
+            builder.setSmallIcon(todaysDateIcon);
+            builder.setContentText(""+day);
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // ab Android Oreo mit Channel:
-            NotificationChannel channel = new NotificationChannel("date15_channel", "date15_channel", NotificationManager.IMPORTANCE_HIGH);
+
+            if (channel == null) {
+                channel = new NotificationChannel("date15_channel", "date15_channel", NotificationManager.IMPORTANCE_HIGH);
+            }
             NotificationManager nMgr = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             nMgr.createNotificationChannel(channel);
             builder.setChannelId("date15_channel");

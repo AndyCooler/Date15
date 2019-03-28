@@ -24,14 +24,13 @@ public class DateUpdateService extends IntentService {
         //String dataString = workIntent.getDataString();
 
         System.out.println("xyz.date15.alarm.rings");
-        //Toast.makeText(this,"HEY !!! Woooooo! ",Toast.LENGTH_SHORT).show();
 
-        //Notification notification = NotificationBuilder.buildForToday(this);
+        Notification notification = NotificationBuilder.buildForToday(this);
 
-        //
-        // NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        //notificationManager.notify(DATE15_NOTIFICATION_ID, notification);
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        notificationManager.notify(DATE15_NOTIFICATION_ID, notification);
 
+        System.out.println("xyz.date15.alarm.rings.notification sent");
     }
 }
 

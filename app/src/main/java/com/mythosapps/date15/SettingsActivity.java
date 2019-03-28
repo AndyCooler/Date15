@@ -250,7 +250,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
                         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getContext());
                         notificationManager.notify(DATE15_NOTIFICATION_ID, notification);
-
+                        Toast.makeText(getContext(),"On",Toast.LENGTH_SHORT).show();
                     }
                     return false;
                 }
