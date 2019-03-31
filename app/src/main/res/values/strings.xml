@@ -53,5 +53,5 @@
     <!-- Example settings for Notifications -->
     <string name="pref_header_notifications">Notifications</string>
 
-    <string name="pref_title_new_message_notifications">Andreas Datum-Icon anzeigen</string>
+    <string name="pref_title_new_message_notifications">Show date in status bar</string>
 </resources>

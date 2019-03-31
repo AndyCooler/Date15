@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mythosapps.date15">
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -18,14 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--
-            Because android:exported is set to "false",
-            the service is only available to this app.
-        -->
-        <service
-            android:name=".DateUpdateService"
-            android:exported="false"/>
 
+        <receiver android:name=".DateUpdateAlarmReceiver" >
+        </receiver>
     </application>
 
 </manifest>

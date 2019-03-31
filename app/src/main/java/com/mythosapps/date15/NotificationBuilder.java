@@ -57,11 +57,11 @@ public class NotificationBuilder {
     public static Notification buildForToday(Context context) {
 
         Calendar cal = GregorianCalendar.getInstance();
-        //int day = cal.get(Calendar.DAY_OF_MONTH);
-        int day = cal.get(Calendar.MINUTE);// TODO !!!!!
-        if (day > 30) {
-            day = day-30;
-        }
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        //int day = cal.get(Calendar.MINUTE);// only fo debugging !!!!!
+        //!if (day > 30) {
+        //!    day = day-30;
+        //!}
         int todaysDateIcon = dateIcons.get(day-1); // index zero-based
 
         System.out.println("xyz.date15.alarm.rings.notification " + day);
@@ -69,8 +69,8 @@ public class NotificationBuilder {
         if (builder == null) {
              builder = new NotificationCompat.Builder(context, Context.NOTIFICATION_SERVICE)
                     .setSmallIcon(todaysDateIcon)
-                    .setContentTitle("Date in Status Bar")
-                    .setContentText(""+day)
+                    .setContentTitle("Date in Status Bar4711")
+                    .setContentText(day < 10 ? "0"+day : ""+day)
                     .setOnlyAlertOnce(true)
                     //.setShowWhen(false)
                     //.setExtras()

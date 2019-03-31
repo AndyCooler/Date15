@@ -5,6 +5,9 @@ import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -16,13 +19,16 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.SwitchPreference;
 import android.service.notification.StatusBarNotification;
+import android.support.v4.app.JobIntentService;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.List;
+
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -101,17 +107,20 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupActionBar();
-        PendingIntent servicePendingIntent = PendingIntent.getService(this, 0, new Intent(this, DateUpdateService.class), PendingIntent.FLAG_CANCEL_CURRENT );
+
+        Intent intent = new Intent(this, DateUpdateAlarmReceiver.class);
+        PendingIntent myPendingIntent = PendingIntent.getBroadcast(this, 0,
+                intent, 0);
 
         AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
 
         Calendar calendar = Calendar.getInstance();
-        //calendar.set(Calendar.HOUR_OF_DAY, 15);
-        //calendar.set(Calendar.MINUTE, 20);
-        //calendar.set(Calendar.SECOND, 00);
+        calendar.set(Calendar.HOUR_OF_DAY,23);  // TODO at midnight, this is just for testing
+        calendar.set(Calendar.MINUTE, 00);
+        calendar.set(Calendar.SECOND, 00);
 
-        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24 * 60 * 60 * 1000, servicePendingIntent);  //set repeating every 24 hours
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 3 * 1000, servicePendingIntent);  //set repeating every 2 mins
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24 * 60 * 1000, myPendingIntent);  //set repeating every minute
+
         System.out.println("xyz.date15.alarm.set");
     }
 
