@@ -24,7 +24,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="fontFamily" value="Ubuntu Medium" />
-                                                <entry key="text" value="31" />
+                                                <entry key="text" value="09" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -35,7 +35,7 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="TEXT" />
-                                      <entry key="outputName" value="ic_date_31" />
+                                      <entry key="outputName" value="ic_date_09" />
                                     </map>
                                   </option>
                                 </PersistentState>

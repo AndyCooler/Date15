@@ -17,15 +17,15 @@ public class NotificationBuilder {
     static final List<Integer> dateIcons = new ArrayList<>();
 
     static {
-        dateIcons.add(R.drawable.ic_date_1);
-        dateIcons.add(R.drawable.ic_date_2);
-        dateIcons.add(R.drawable.ic_date_3);
-        dateIcons.add(R.drawable.ic_date_4);
-        dateIcons.add(R.drawable.ic_date_5);
-        dateIcons.add(R.drawable.ic_date_6);
-        dateIcons.add(R.drawable.ic_date_7);
-        dateIcons.add(R.drawable.ic_date_8);
-        dateIcons.add(R.drawable.ic_date_9);
+        dateIcons.add(R.drawable.ic_date_01); // or ic_date_1
+        dateIcons.add(R.drawable.ic_date_02); // or ic_date_2
+        dateIcons.add(R.drawable.ic_date_03); // or ic_date_3
+        dateIcons.add(R.drawable.ic_date_04); // or ic_date_4
+        dateIcons.add(R.drawable.ic_date_05); // or ic_date_5
+        dateIcons.add(R.drawable.ic_date_06); // or ic_date_6
+        dateIcons.add(R.drawable.ic_date_07); // or ic_date_7
+        dateIcons.add(R.drawable.ic_date_08); // or ic_date_8
+        dateIcons.add(R.drawable.ic_date_09); // or ic_date_9
         dateIcons.add(R.drawable.ic_date_10);
         dateIcons.add(R.drawable.ic_date_11);
         dateIcons.add(R.drawable.ic_date_12);
