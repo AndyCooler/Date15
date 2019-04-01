@@ -6,7 +6,6 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -16,6 +15,7 @@ import java.util.List;
 public class NotificationBuilder {
 
     static final List<Integer> dateIcons = new ArrayList<>();
+
     static {
         dateIcons.add(R.drawable.ic_date_1);
         dateIcons.add(R.drawable.ic_date_2);
@@ -58,19 +58,15 @@ public class NotificationBuilder {
 
         Calendar cal = GregorianCalendar.getInstance();
         int day = cal.get(Calendar.DAY_OF_MONTH);
-        //int day = cal.get(Calendar.MINUTE);// only fo debugging !!!!!
-        //!if (day > 30) {
-        //!    day = day-30;
-        //!}
-        int todaysDateIcon = dateIcons.get(day-1); // index zero-based
+        int todaysDateIcon = dateIcons.get(day - 1); // index zero-based
 
         System.out.println("xyz.date15.alarm.rings.notification " + day);
 
         if (builder == null) {
-             builder = new NotificationCompat.Builder(context, Context.NOTIFICATION_SERVICE)
+            builder = new NotificationCompat.Builder(context, Context.NOTIFICATION_SERVICE)
                     .setSmallIcon(todaysDateIcon)
-                    .setContentTitle("Date in Status Bar4711")
-                    .setContentText(day < 10 ? "0"+day : ""+day)
+                    .setContentTitle("Date in Status Bar")
+                    .setContentText(day < 10 ? "0" + day : "" + day)
                     .setOnlyAlertOnce(true)
                     //.setShowWhen(false)
                     //.setExtras()
@@ -79,7 +75,7 @@ public class NotificationBuilder {
                     .setPriority(NotificationCompat.PRIORITY_HIGH);
         } else {
             builder.setSmallIcon(todaysDateIcon);
-            builder.setContentText(""+day);
+            builder.setContentText("" + day);
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
