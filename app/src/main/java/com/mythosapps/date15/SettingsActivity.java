@@ -16,8 +16,8 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.SwitchPreference;
 import android.service.notification.StatusBarNotification;
-import android.support.v4.app.NotificationManagerCompat;
-import android.support.v7.app.ActionBar;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.appcompat.app.ActionBar;
 import android.view.MenuItem;
 import android.widget.Toast;
 
